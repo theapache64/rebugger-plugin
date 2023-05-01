@@ -9,11 +9,6 @@
 
     <resource-bundle>messages.MyBundle</resource-bundle>
 
-    <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.theapache64.rebuggerplugin.toolWindow.MyToolWindowFactory"
-                    id="MyToolWindow"/>
-    </extensions>
-
     <actions>
         <action
             id="Rebugger.AddRebuggerHereAction"
@@ -24,8 +19,4 @@
         </action>
     </actions>
 
-    <applicationListeners>
-        <listener class="com.github.theapache64.rebuggerplugin.listeners.MyFrameStateListener"
-                  topic="com.intellij.ide.FrameStateListener"/>
-    </applicationListeners>
 </idea-plugin>
