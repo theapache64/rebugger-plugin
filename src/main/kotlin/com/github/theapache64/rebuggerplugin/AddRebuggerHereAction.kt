@@ -3,6 +3,7 @@ package com.github.theapache64.rebuggerplugin
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
+import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.util.childrenOfType
 import com.intellij.psi.util.parentOfType
 import com.intellij.refactoring.suggested.startOffset
@@ -30,6 +31,7 @@ class AddRebuggerHereAction : AnAction() {
         }
 
         // Adding states between function header and cursor
+        // TODO: Try recursive approach
         function.bodyBlockExpression
             ?.children
             ?.filter {
@@ -39,6 +41,7 @@ class AddRebuggerHereAction : AnAction() {
                 when (val element = it) {
                     is KtCallExpression -> {
                         element.valueArguments.forEach { arg ->
+                            // string template
                             arg.stringTemplateExpression?.let { stringTemplate ->
                                 stringTemplate.childrenOfType<KtBlockStringTemplateEntry>()
                                     .forEach { longString ->
@@ -57,10 +60,11 @@ class AddRebuggerHereAction : AnAction() {
                     }
 
                     is KtProperty -> {
-                        element.childrenOfType<KtDotQualifiedExpression>()
-                            .forEach { dotQualified ->
-                                trackSet.add(dotQualified.text)
-                            }
+                        element.childrenOfType<LeafPsiElement>().find { leafPsiElement ->
+                            leafPsiElement.elementType.toString() == "IDENTIFIER"
+                        }?.text?.let { valName ->
+                            trackSet.add(valName)
+                        }
                     }
                 }
             }
