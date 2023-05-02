@@ -3,5 +3,12 @@
 # rebugger-plugin Changelog
 
 ## [Unreleased]
+
+### Removed
+
+- Unused resources
+
+## [0.0.1] - 2023-05-01
 ### Added
-- Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
+- Add `KtCallExpression` support
+- Add `KtProperty` support
