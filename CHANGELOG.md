@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+### Changed
+
+- Code refactor
+
 ## [0.0.2] - 2023-05-02
 
 ### Removed
