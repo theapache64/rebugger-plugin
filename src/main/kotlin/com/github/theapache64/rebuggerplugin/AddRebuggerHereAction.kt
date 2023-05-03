@@ -35,13 +35,14 @@ class AddRebuggerHereAction : AnAction() {
         function.bodyBlockExpression
             ?.children
             ?.filter {
+                // Filtering elements between function header and cursor position
                 val isBeforeOffset = it.startOffset < offset
                 isBeforeOffset && (it is KtCallExpression || it is KtProperty)
             }?.forEach {
                 when (val element = it) {
                     is KtCallExpression -> {
                         element.valueArguments.forEach { arg ->
-                            // string template
+                            // capturing string template : eg: "Data is $data"
                             arg.stringTemplateExpression?.let { stringTemplate ->
                                 stringTemplate.childrenOfType<KtBlockStringTemplateEntry>()
                                     .forEach { longString ->
@@ -52,6 +53,7 @@ class AddRebuggerHereAction : AnAction() {
                                     }
                             }
 
+                            // capturing string template : eg: "Data is ${data.message}"
                             arg.childrenOfType<KtDotQualifiedExpression>()
                                 .forEach { dotQualified ->
                                     trackSet.add(dotQualified.text)
@@ -60,6 +62,7 @@ class AddRebuggerHereAction : AnAction() {
                     }
 
                     is KtProperty -> {
+                        // Getting var/val property names
                         element.childrenOfType<LeafPsiElement>().find { leafPsiElement ->
                             leafPsiElement.elementType.toString() == "IDENTIFIER"
                         }?.text?.let { valName ->
