@@ -4,7 +4,10 @@
 [![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
 
+<!-- Plugin description -->
 IDE plugin to assist [Rebugger](https://github.com/theapache64/rebugger). Read more about it [here](https://github.com/theapache64/rebugger/issues/1)
+<!-- Plugin description end -->
+
 
 ## 🎥 Demo
 
