@@ -1,8 +1,8 @@
 # 🔌 rebugger-plugin
 
 ![Build](https://github.com/theapache64/rebugger-plugin/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
+[![Version](https://img.shields.io/jetbrains/plugin/v/21633-rebugger.svg)](https://plugins.jetbrains.com/plugin/21633-rebugger)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/21633-rebugger.svg)](https://plugins.jetbrains.com/plugin/21633-rebugger)
 
 <!-- Plugin description -->
 IDE plugin to assist [Rebugger](https://github.com/theapache64/rebugger). Read more about it [here](https://github.com/theapache64/rebugger/issues/1)
