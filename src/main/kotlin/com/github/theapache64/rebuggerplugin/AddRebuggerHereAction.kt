@@ -82,7 +82,7 @@ class AddRebuggerHereAction : AnAction() {
                 }
             }
 
-            val rebuggerCall = "Rebugger( trackMap = mapOf( $trackMap ), )"
+            val rebuggerCall = "Rebugger(trackMap=mapOf($trackMap),)"
             insertString(offset, rebuggerCall)
             val codeStyleManager = com.intellij.psi.codeStyle.CodeStyleManager.getInstance(project)
             codeStyleManager.reformatText(ktFile, offset, offset + rebuggerCall.length)

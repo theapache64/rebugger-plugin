@@ -1,9 +1,16 @@
 package com.github.theapache64.rebuggerplugin
 
+import com.intellij.openapi.actionSystem.IdeActions
+import com.intellij.openapi.editor.IndentsModel
+import com.intellij.openapi.editor.impl.IndentsModelImpl
+import com.intellij.psi.codeStyle.CodeStyleManager
+import com.intellij.psi.codeStyle.CodeStyleSettingsManager
 import com.intellij.testFramework.TestDataPath
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
 import com.intellij.util.PsiErrorElementUtil
 import org.jetbrains.kotlin.idea.KotlinFileType
+import org.jetbrains.kotlin.idea.formatter.commitAndUnblockDocument
+import org.jetbrains.kotlin.idea.formatter.kotlinCommonSettings
 import org.jetbrains.kotlin.psi.KtFile
 import org.junit.Test
 
@@ -18,18 +25,13 @@ class BasicTest : BasePlatformTestCase() {
     }
 
     @Test
-    fun testAddRebugger(){
+    fun testAddRebugger() {
         // loading file
         val psiFile = myFixture.configureByFile("Basic.kt")
-        val ktFile = assertInstanceOf(psiFile, KtFile::class.java)
+
         myFixture.testAction(AddRebuggerHereAction())
         myFixture.checkResultByFile("BasicAfter.kt")
     }
-
-    fun testRename() {
-        myFixture.testRename("foo.xml", "foo_after.xml", "a2")
-    }
-
 
     override fun getTestDataPath() = "src/test/testData/basic"
 }

@@ -7,8 +7,8 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun MyFunction(
-    param1 : String,
-    param2 : Int
+    param1: String,
+    param2: Int
 ) {
     Rebugger(
             trackMap = mapOf(
