@@ -4,6 +4,9 @@
 
 ## [Unreleased]
 
+### Added
+- Generate `println()`
+
 ## [0.0.3] - 2023-05-03
 
 ### Changed
