@@ -82,7 +82,7 @@ class AddRebuggerHereAction : AnAction() {
                 }
             }
 
-            val rebuggerCall = "Rebugger( trackMap = mapOf( $trackMap ), )"
+            val rebuggerCall = "Rebugger(trackMap=mapOf($trackMap),)"
             insertString(offset, rebuggerCall)
             val codeStyleManager = com.intellij.psi.codeStyle.CodeStyleManager.getInstance(project)
             codeStyleManager.reformatText(ktFile, offset, offset + rebuggerCall.length)
@@ -106,6 +106,10 @@ class AddRebuggerHereAction : AnAction() {
     override fun update(event: AnActionEvent) {
         val file = event.getData(CommonDataKeys.VIRTUAL_FILE)
         val isKotlinFile = file?.extension == "kt"
-        event.presentation.isEnabledAndVisible = isKotlinFile
+        val editor = event.getRequiredData(CommonDataKeys.EDITOR)
+        val hasSelection = editor.caretModel.currentCaret.let {
+            it.selectionStart != it.selectionEnd
+        }
+        event.presentation.isEnabledAndVisible = isKotlinFile && !hasSelection
     }
 }
