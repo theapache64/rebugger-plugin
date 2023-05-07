@@ -17,6 +17,15 @@
             description="Add Rebugger call here">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
+
+        <!--suppress PluginXmlCapitalization -->
+        <action
+            id="Rebugger.GeneratePrintLnHereAction"
+            class="com.github.theapache64.rebuggerplugin.GeneratePrintLnHereAction"
+            text="Generate println()"
+            description="Generate println() call with current selection">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+        </action>
     </actions>
 
 </idea-plugin>
