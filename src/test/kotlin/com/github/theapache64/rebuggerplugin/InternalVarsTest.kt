@@ -8,16 +8,15 @@ import org.jetbrains.kotlin.psi.KtFile
 import org.junit.Test
 
 @TestDataPath("\$CONTENT_ROOT/src/test/testData")
-class FuncParamTest : BasePlatformTestCase() {
-
+class InternalVarsTest : BasePlatformTestCase() {
 
     @Test
     fun testInternalParam() {
         // loading file
-        myFixture.configureByFile("FuncParam.kt")
+        myFixture.configureByFile("InternalParam.kt")
         myFixture.testAction(AddRebuggerHereAction())
-        myFixture.checkResultByFile("FuncParamAfter.kt")
+        myFixture.checkResultByFile("InternalParamAfter.kt")
     }
 
-    override fun getTestDataPath() = "src/test/testData/func_param"
+    override fun getTestDataPath() = "src/test/testData/internal_param"
 }
