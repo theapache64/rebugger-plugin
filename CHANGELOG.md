@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+- Support all IDE versions
+
 ## [0.0.4] - 2023-05-07
 
 ### Added
