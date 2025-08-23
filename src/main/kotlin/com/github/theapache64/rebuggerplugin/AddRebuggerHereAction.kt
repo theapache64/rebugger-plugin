@@ -1,13 +1,18 @@
 package com.github.theapache64.rebuggerplugin
 
+import com.intellij.application.options.CodeStyle.getCustomSettings
+import com.intellij.application.options.CodeStyle.getIndentOptions
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.psi.PsiElement
+import com.intellij.psi.codeStyle.CodeStyleManager
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.util.childrenOfType
 import com.intellij.psi.util.parentOfType
 import com.intellij.refactoring.suggested.startOffset
+import org.jetbrains.kotlin.idea.KotlinFileType
+import org.jetbrains.kotlin.idea.core.formatter.KotlinCodeStyleSettings
 import org.jetbrains.kotlin.psi.*
 
 class AddRebuggerHereAction : AnAction() {
@@ -40,7 +45,12 @@ class AddRebuggerHereAction : AnAction() {
 
             val rebuggerCall = "Rebugger(trackMap=mapOf($trackMap),)"
             insertString(offset, rebuggerCall)
-            val codeStyleManager = com.intellij.psi.codeStyle.CodeStyleManager.getInstance(project)
+            val codeStyleManager = CodeStyleManager.getInstance(project).apply {
+                getIndentOptions(ktFile).apply {
+                    CONTINUATION_INDENT_SIZE = 4
+                    INDENT_SIZE = 4
+                }
+            }
             codeStyleManager.reformatText(ktFile, offset, offset + rebuggerCall.length)
 
             // Add import statement
