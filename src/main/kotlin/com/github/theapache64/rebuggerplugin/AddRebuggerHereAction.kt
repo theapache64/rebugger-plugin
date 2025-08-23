@@ -7,12 +7,7 @@ import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.util.childrenOfType
 import com.intellij.psi.util.parentOfType
 import com.intellij.refactoring.suggested.startOffset
-import org.jetbrains.kotlin.psi.KtBlockStringTemplateEntry
-import org.jetbrains.kotlin.psi.KtCallExpression
-import org.jetbrains.kotlin.psi.KtDotQualifiedExpression
-import org.jetbrains.kotlin.psi.KtFile
-import org.jetbrains.kotlin.psi.KtNamedFunction
-import org.jetbrains.kotlin.psi.KtProperty
+import org.jetbrains.kotlin.psi.*
 
 class AddRebuggerHereAction : AnAction() {
     override fun actionPerformed(event: AnActionEvent) {
@@ -106,10 +101,10 @@ class AddRebuggerHereAction : AnAction() {
     override fun update(event: AnActionEvent) {
         val file = event.getData(CommonDataKeys.VIRTUAL_FILE)
         val isKotlinFile = file?.extension == "kt"
-        val editor = event.getRequiredData(CommonDataKeys.EDITOR)
-        val hasSelection = editor.caretModel.currentCaret.let {
+        val editor = event.getData(CommonDataKeys.EDITOR)
+        val hasSelection = editor?.caretModel?.currentCaret?.let {
             it.selectionStart != it.selectionEnd
-        }
-        event.presentation.isEnabledAndVisible = isKotlinFile && !hasSelection
+        } ?: false
+        event.presentation.isEnabledAndVisible = isKotlinFile && !hasSelection && editor != null
     }
 }
