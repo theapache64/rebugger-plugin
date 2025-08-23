@@ -1,6 +1,5 @@
 package com.github.theapache64.rebuggerplugin
 
-import com.intellij.application.options.CodeStyle.getCustomSettings
 import com.intellij.application.options.CodeStyle.getIndentOptions
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -11,8 +10,6 @@ import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.util.childrenOfType
 import com.intellij.psi.util.parentOfType
 import com.intellij.refactoring.suggested.startOffset
-import org.jetbrains.kotlin.idea.KotlinFileType
-import org.jetbrains.kotlin.idea.core.formatter.KotlinCodeStyleSettings
 import org.jetbrains.kotlin.psi.*
 
 class AddRebuggerHereAction : AnAction() {
