@@ -70,8 +70,7 @@ class GeneratePrintLnHereAction : AnAction() {
     override fun update(event: AnActionEvent) {
         val file = event.getData(CommonDataKeys.VIRTUAL_FILE)
         val isKotlinFile = file?.extension == "kt"
-
-        val editor = event.getRequiredData(CommonDataKeys.EDITOR)
+        val editor = event.getData(CommonDataKeys.EDITOR) ?: return
         val hasSelection = editor.caretModel.currentCaret.let {
             it.selectionStart != it.selectionEnd
         }
