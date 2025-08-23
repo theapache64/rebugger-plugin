@@ -3,6 +3,7 @@ package com.github.theapache64.rebuggerplugin
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
+import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.util.childrenOfType
 import com.intellij.psi.util.parentOfType
@@ -25,47 +26,7 @@ class AddRebuggerHereAction : AnAction() {
             trackSet.addAll(argSet)
         }
 
-        // Adding states between function header and cursor
-        // TODO: Try recursive approach
-        function.bodyBlockExpression
-            ?.children
-            ?.filter {
-                // Filtering elements between function header and cursor position
-                val isBeforeOffset = it.startOffset < offset
-                isBeforeOffset && (it is KtCallExpression || it is KtProperty)
-            }?.forEach {
-                when (val element = it) {
-                    is KtCallExpression -> {
-                        element.valueArguments.forEach { arg ->
-                            // capturing string template : eg: "Data is $data"
-                            arg.stringTemplateExpression?.let { stringTemplate ->
-                                stringTemplate.childrenOfType<KtBlockStringTemplateEntry>()
-                                    .forEach { longString ->
-                                        longString.childrenOfType<KtDotQualifiedExpression>()
-                                            .forEach { dotQualified ->
-                                                trackSet.add(dotQualified.text)
-                                            }
-                                    }
-                            }
-
-                            // capturing string template : eg: "Data is ${data.message}"
-                            arg.childrenOfType<KtDotQualifiedExpression>()
-                                .forEach { dotQualified ->
-                                    trackSet.add(dotQualified.text)
-                                }
-                        }
-                    }
-
-                    is KtProperty -> {
-                        // Getting var/val property names
-                        element.childrenOfType<LeafPsiElement>().find { leafPsiElement ->
-                            leafPsiElement.elementType.toString() == "IDENTIFIER"
-                        }?.text?.let { valName ->
-                            trackSet.add(valName)
-                        }
-                    }
-                }
-            }
+        function.bodyBlockExpression?.let { processElementsRecursively(it, offset, trackSet) }
 
         // Adding code block
         editor.document.executeCommand(project, description = "Add Rebugger Call") {
@@ -91,6 +52,54 @@ class AddRebuggerHereAction : AnAction() {
                 insertString(lastImportIndex, "import $classToImport\n")
             }
         }
+    }
+
+    private fun processElementsRecursively(
+        element: PsiElement,
+        offset: Int,
+        trackSet: MutableSet<String>
+    ) {
+
+        if (element.startOffset < offset) {
+            when (element) {
+                is KtCallExpression -> {
+                    element.valueArguments.forEach { arg ->
+                        // capturing string template : eg: "Data is $data"
+                        arg.stringTemplateExpression?.let { stringTemplate ->
+                            stringTemplate.childrenOfType<KtBlockStringTemplateEntry>()
+                                .forEach { longString ->
+                                    longString.childrenOfType<KtDotQualifiedExpression>()
+                                        .forEach { dotQualified ->
+                                            trackSet.add(dotQualified.text)
+                                        }
+                                }
+                        }
+
+                        // capturing string template : eg: "Data is ${data.message}"
+                        arg.childrenOfType<KtDotQualifiedExpression>()
+                            .forEach { dotQualified ->
+                                trackSet.add(dotQualified.text)
+                            }
+                    }
+                }
+
+                is KtProperty -> {
+                    // Getting var/val property names
+                    element.childrenOfType<LeafPsiElement>().find { leafPsiElement ->
+                        leafPsiElement.elementType.toString() == "IDENTIFIER"
+                    }?.text?.let { valName ->
+                        trackSet.add(valName)
+                    }
+                }
+            }
+        }
+
+        // Adding states between function header and cursor
+        // TODO: Try recursive approach
+        element.children.forEach { child ->
+            processElementsRecursively(child, offset, trackSet)
+        }
+
     }
 
 
