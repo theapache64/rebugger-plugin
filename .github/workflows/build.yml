@@ -75,6 +75,9 @@ jobs:
           echo "EOF" >> $GITHUB_OUTPUT
 
           ./gradlew listProductsReleases # prepare list of IDEs for Plugin Verifier
+          
+          # Remove IC-2025.1.4 from build/listProductsReleases.txt
+          grep -v "IC-2025.1.4" build/listProductsReleases.txt > temp.txt && mv temp.txt build/listProductsReleases.txt
 
       # Run tests
       - name: Run Tests
