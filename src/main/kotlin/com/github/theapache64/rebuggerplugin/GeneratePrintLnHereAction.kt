@@ -19,6 +19,12 @@ private val Caret.selectionRange: TextRange
         return TextRange.create(this.selectionStart, this.selectionEnd);
     }
 
+/**
+ * A common utility for routine debugging. Not related to compose.
+ * This action extracts variables from selected code and generates a `println` statement (similar to Rebugger).
+ *
+ * Enjoy :)
+ */
 class GeneratePrintLnHereAction : AnAction() {
 
     override fun actionPerformed(event: AnActionEvent) {
