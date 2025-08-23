@@ -22,7 +22,7 @@ class AddRebuggerHereAction : AnAction() {
         val ktFile = event.getData(CommonDataKeys.PSI_FILE) as? KtFile ?: return
         val offset = editor.caretModel.offset
         val currentElement = ktFile.findElementAt(offset)
-        val function = currentElement?.parentOfType<KtNamedFunction>() ?: return@actionPerformed
+        val function = currentElement?.parentOfType<KtNamedFunction>() ?: return
 
         val trackSet = mutableSetOf<String>()
 
@@ -105,11 +105,9 @@ class AddRebuggerHereAction : AnAction() {
         }
 
         // Adding states between function header and cursor
-        // TODO: Try recursive approach
         element.children.forEach { child ->
             processElementsRecursively(child, offset, trackSet)
         }
-
     }
 
 
