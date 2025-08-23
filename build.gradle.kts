@@ -120,4 +120,8 @@ tasks {
         // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
         channels = properties("pluginVersion").map { listOf(it.split('-').getOrElse(1) { "default" }.split('.').first()) }
     }
+
+    runPluginVerifier {
+        ideVersions = listOf("IC-2025.2.1")
+    }
 }
