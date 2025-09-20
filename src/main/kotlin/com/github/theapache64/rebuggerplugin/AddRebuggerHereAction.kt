@@ -36,7 +36,7 @@ class AddRebuggerHereAction : AnAction() {
             // Write code block
             val trackMap = StringBuilder().apply {
                 for (varName in trackSet) {
-                    this.append("\"$varName\" to $varName,\n")
+                    this.append("\"${varName.replace("""\s+""".toRegex(), "")}\" to $varName,\n")
                 }
             }
 

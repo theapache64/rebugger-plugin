@@ -12,6 +12,8 @@ fun MyFunction(
 ) {
     val state0 by remember { mutableStateOf("") }
     Text(text = "myDirectState is ${myClass.state1}")
+    Text(text = "myDirectState is ${myClass
+        .state2}")
     val state2 = myClass.state2 + myClass.state3
     <caret>
     Column {
