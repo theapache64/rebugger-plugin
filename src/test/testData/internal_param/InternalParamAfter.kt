@@ -11,13 +11,18 @@ fun MyFunction(
     param2: Int
 ) {
     val state0 by remember { mutableStateOf("") }
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxSize(),
+    ) {
         var state1 by remember { mutableStateOf(0) }
         Rebugger(
             trackMap = mapOf(
                 "param1" to param1,
                 "param2" to param2,
                 "state0" to state0,
+                "Modifier.fillMaxSize()" to Modifier
+                    .fillMaxSize(),
                 "state1" to state1,
             ),
         )

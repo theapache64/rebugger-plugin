@@ -13,6 +13,8 @@ fun MyFunction(
 ) {
     val state0 by remember { mutableStateOf("") }
     Text(text = "myDirectState is ${myClass.state1}")
+    Text(text = "myDirectState is ${myClass
+        .state2}")
     val state2 = myClass.state2 + myClass.state3
     Rebugger(
         trackMap = mapOf(
@@ -21,6 +23,8 @@ fun MyFunction(
             "myClass" to myClass,
             "state0" to state0,
             "myClass.state1" to myClass.state1,
+            "myClass.state2" to myClass
+                .state2,
             "state2" to state2,
         ),
     )
